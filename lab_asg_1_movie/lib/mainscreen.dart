@@ -11,8 +11,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          brightness: Brightness.dark, 
-          primarySwatch: Colors.blueGrey),
+          brightness: Brightness.dark, primarySwatch: Colors.blueGrey),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Movie App'),
