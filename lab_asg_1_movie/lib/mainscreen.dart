@@ -32,13 +32,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController searchMovie = TextEditingController();
 
-  var title = "",
-      year = "",
-      genre = "",
-      actors = "",
-      imageUrl =
-          "https://www.freepnglogos.com/uploads/film-reel-png/film-reel-the-movies-owens-valley-12.png",
-      desc = "";
+  var title = "";
+  var year = "";
+  var genre = "";
+  var actors = "";
+  var imageUrl =
+      "https://www.freepnglogos.com/uploads/film-reel-png/film-reel-the-movies-owens-valley-12.png";
+  var desc = "";
 
   @override
   Widget build(BuildContext context) {
@@ -99,34 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 
-  void _confirmSearch() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            title: Text(searchMovie.text),
-            content: const Text("Are you sure to search this movie?"),
-            actions: [
-              TextButton(
-                child: const Text("Yes"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  _getMovies();
-                },
-              ),
-              TextButton(
-                child: const Text("Cancel"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
-  }
-
   Future<void> _getMovies() async {
     ProgressDialog progressDialog = ProgressDialog(context,
         message: const Text("Progress"), title: const Text("Searching movie"));
@@ -163,5 +135,33 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
     progressDialog.dismiss();
+  }
+
+  void _confirmSearch() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            title: Text(searchMovie.text),
+            content: const Text("Are you sure to search this movie?"),
+            actions: [
+              TextButton(
+                child: const Text("Yes"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _getMovies();
+                },
+              ),
+              TextButton(
+                child: const Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }
