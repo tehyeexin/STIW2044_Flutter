@@ -39,6 +39,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+        screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+
+    if (screenWidth <= 600) {
+      resWidth = screenWidth;
+    } else {
+      resWidth = screenWidth * 0.75;
+    }
+
    return Scaffold(
         appBar: AppBar(title: const Text("Registration Form")),
         body: Center(
@@ -47,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             elevation: 8,
             margin: const EdgeInsets.all(8),
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(24),
               child: Form(
                 key: _formKey,
                 child: Column(children: [
@@ -57,7 +66,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fontSize: 24,
                           fontWeight: FontWeight.bold),
                     ),
+                    
                     SizedBox(
+                      height: screenHeight / 3,
                         child: GestureDetector(
                           onTap: _selectImage,
                           child: Padding(
@@ -123,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         labelStyle: const TextStyle(),
-                        icon: const Icon(Icons.password),
+                        icon: const Icon(Icons.lock),
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(width: 1.0),
                         ),
@@ -147,7 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Re-Password',
                         labelStyle: const TextStyle(),
-                        icon: const Icon(Icons.password),
+                        icon: const Icon(Icons.lock),
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(width: 1.0),
                         ),
@@ -165,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       )),
                   const SizedBox(
-                    height: 8,
+                    height: 24,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

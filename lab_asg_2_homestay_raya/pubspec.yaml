@@ -40,6 +40,7 @@ dependencies:
   fluttertoast: ^8.1.2
   ndialog: ^4.2.1
   image_picker: ^0.8.6
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

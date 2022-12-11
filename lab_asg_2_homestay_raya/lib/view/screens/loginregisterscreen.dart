@@ -25,48 +25,50 @@ class _LoginRegisterState extends State<LoginRegisterScreen> {
         onWillPop: () async => false,
         child: Scaffold(
           appBar: AppBar(title: const Text("Login/Register")),
-          body:  Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      elevation: 5,
-                      shadowColor: Colors.black,
-                      fixedSize: Size(screenWidth / 1.3, screenHeight / 12),
-                      textStyle: const TextStyle(fontSize: 20)),
-                  onPressed: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const LoginScreen()))
-                  },
-                  child: const Text('Login'),
-                ),
-                const SizedBox(height: 50),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      elevation: 5,
-                      shadowColor: Colors.black,
-                      fixedSize: Size(screenWidth / 1.3, screenHeight / 12),
-                      textStyle: const TextStyle(fontSize: 20)),
-                  onPressed: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const RegisterScreen()))
-                  },
-                  child: const Text('Register'),
-                ),
-                const SizedBox(height: 50),
-              ],
-            ),
-          ],
-        ))));
+          body: Center(
+              child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        elevation: 5,
+                        shadowColor: Colors.black,
+                        fixedSize: Size(screenWidth / 1.3, screenHeight / 12),
+                        textStyle: const TextStyle(fontSize: 20)),
+                    onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const LoginScreen()))
+                    },
+                    child: const Text('Login'),
+                  ),
+                  const SizedBox(height: 50),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        elevation: 5,
+                        shadowColor: Colors.black,
+                        fixedSize: Size(screenWidth / 1.3, screenHeight / 12),
+                        textStyle: const TextStyle(fontSize: 20)),
+                    onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const RegisterScreen()))
+                    },
+                    child: const Text('Register'),
+                  ),
+                  const SizedBox(height: 50),
+                ],
+              ),
+            ],
+          )),
+          drawer: MainMenuWidget(),
+        ));
   }
 }
