@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lab_asg_2_homestay_raya/config.dart';
+import 'package:lab_asg_2_homestay_raya/view/screens/loginregisterscreen.dart';
+import 'package:lab_asg_2_homestay_raya/view/screens/loginscreen.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -20,6 +23,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
     loadEula();
   }
+
+  final focus = FocusNode();
+  final focus1 = FocusNode();
+  final focus2 = FocusNode();
+  final focus3 = FocusNode();
+  final focus4 = FocusNode();
+  final focus5 = FocusNode();
 
   final TextEditingController _nameEditingController = TextEditingController();
   final TextEditingController _emailEditingController = TextEditingController();
@@ -39,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-        screenHeight = MediaQuery.of(context).size.height;
+    screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
 
     if (screenWidth <= 600) {
@@ -48,174 +58,255 @@ class _RegisterScreenState extends State<RegisterScreen> {
       resWidth = screenWidth * 0.75;
     }
 
-   return Scaffold(
+    return Scaffold(
         appBar: AppBar(title: const Text("Registration Form")),
         body: Center(
-            child: SingleChildScrollView(
-          child: Card(
-            elevation: 8,
-            margin: const EdgeInsets.all(8),
-            child: Container(
-              padding: const EdgeInsets.all(24),
-              child: Form(
-                key: _formKey,
-                child: Column(children: [
-                  const Text(
-                      "Register New Account",
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    
-                    SizedBox(
-                      height: screenHeight / 3,
-                        child: GestureDetector(
-                          onTap: _selectImage,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                            child: Container(
-                                decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: _image == null
-                                    ? AssetImage(pathAsset)
-                                    : FileImage(_image!) as ImageProvider,
-                                fit: BoxFit.fill,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Card(
+                  elevation: 8,
+                  margin: const EdgeInsets.all(8),
+                  child: Container(
+                    padding: const EdgeInsets.all(24),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(children: [
+                        const Text(
+                          "Register New Account",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                            height: screenHeight / 3,
+                            child: GestureDetector(
+                              onTap: _selectImage,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: _image == null
+                                        ? AssetImage(pathAsset)
+                                        : FileImage(_image!) as ImageProvider,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )),
                               ),
                             )),
-                          ),
-                        )),
-                    const SizedBox(height: 10),
-                  TextFormField(
-                      controller: _nameEditingController,
-                      keyboardType: TextInputType.text,
-                      validator: (val) => val!.isEmpty || (val.length < 3)
-                          ? "name must be longer than 3"
-                          : null,
-                      decoration: const InputDecoration(
-                          labelText: 'Name',
-                          labelStyle: TextStyle(),
-                          icon: Icon(Icons.person),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 1.0),
-                          ))),
-                  TextFormField(
-                      controller: _emailEditingController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (val) => val!.isEmpty ||
-                              !val.contains("@") ||
-                              !val.contains(".")
-                          ? "enter a valid email"
-                          : null,
-                      decoration: const InputDecoration(
-                          labelText: 'Email',
-                          labelStyle: TextStyle(),
-                          icon: Icon(Icons.email),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 1.0),
-                          ))),
-                  TextFormField(
-                      controller: _phoneEditingController,
-                       validator: (val) => val!.isEmpty || (val.length < 10)
-                          ? "Please enter valid phone number"
-                          : null,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                          labelText: 'Phone',
-                          labelStyle: TextStyle(),
-                          icon: Icon(Icons.phone),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 1.0),
-                          ))),
-                  TextFormField(
-                      controller: _passEditingController,
-                      keyboardType: TextInputType.visiblePassword,
-                      validator: (val) => validatePassword(val.toString()),
-                      obscureText: _passwordVisible,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        labelStyle: const TextStyle(),
-                        icon: const Icon(Icons.lock),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _passwordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
+                        const SizedBox(height: 10),
+                        TextFormField(
+                            textInputAction: TextInputAction.next,
+                            validator: (val) => val!.isEmpty || (val.length < 3)
+                                ? "Name must be longer than 3 letters"
+                                : null,
+                            onFieldSubmitted: (v) {
+                              FocusScope.of(context).requestFocus(focus);
+                            },
+                            controller: _nameEditingController,
+                            keyboardType: TextInputType.text,
+                            decoration: const InputDecoration(
+                                labelText: 'Name',
+                                labelStyle: TextStyle(),
+                                icon: Icon(Icons.person),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 2.0),
+                                ))),
+                        TextFormField(
+                            textInputAction: TextInputAction.next,
+                            validator: (val) => val!.isEmpty ||
+                                    !val.contains("@") ||
+                                    !val.contains(".")
+                                ? "Please enter a valid email"
+                                : null,
+                            focusNode: focus,
+                            onFieldSubmitted: (v) {
+                              FocusScope.of(context).requestFocus(focus1);
+                            },
+                            controller: _emailEditingController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(
+                                labelText: 'Email',
+                                icon: Icon(Icons.email),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 2.0),
+                                ))),
+                        TextFormField(
+                            textInputAction: TextInputAction.next,
+                            validator: (val) =>
+                                val!.isEmpty || (val.length < 10)
+                                    ? "Please enter a valid phone number"
+                                    : null,
+                            focusNode: focus1,
+                            onFieldSubmitted: (v) {
+                              FocusScope.of(context).requestFocus(focus2);
+                            },
+                            controller: _phoneEditingController,
+                            keyboardType: TextInputType.text,
+                            decoration: const InputDecoration(
+                                labelText: 'Phone Number',
+                                icon: Icon(Icons.phone),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 2.0),
+                                ))),
+                        TextFormField(
+                          textInputAction: TextInputAction.done,
+                          validator: (val) => validatePassword(val.toString()),
+                          focusNode: focus2,
+                          onFieldSubmitted: (v) {
+                            FocusScope.of(context).requestFocus(focus3);
                           },
-                        ),
-                      )),
-                  TextFormField(
-                      controller: _pass2EditingController,
-                      keyboardType: TextInputType.visiblePassword,
-                      obscureText: _passwordVisible,
-                      decoration: InputDecoration(
-                        labelText: 'Re-Password',
-                        labelStyle: const TextStyle(),
-                        icon: const Icon(Icons.lock),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(width: 1.0),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _passwordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
-                          },
-                        ),
-                      )),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Checkbox(
-                        value: _isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _isChecked = value!;
-                          });
-                        },
-                      ),
-                      Flexible(
-                        child: GestureDetector(
-                          onTap: showEula,
-                          child: const Text('Agree with terms',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                          controller: _passEditingController,
+                          decoration: InputDecoration(
+                              labelText: 'Password',
+                              icon: const Icon(Icons.lock),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(width: 2.0),
                               )),
+                          obscureText: _passwordVisible,
                         ),
-                      ),
-                      MaterialButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0)),
-                        minWidth: 115,
-                        height: 50,
-                        elevation: 10,
-                        onPressed: _registerAccountDialog,
-                        color: Theme.of(context).colorScheme.primary,
-                        child: const Text('Register'),
-                      ),
-                    ],
+                        TextFormField(
+                          style: const TextStyle(),
+                          textInputAction: TextInputAction.done,
+                          validator: (val) {
+                            validatePassword(val.toString());
+                            if (val != _passEditingController.text) {
+                              return "Password do not match";
+                            } else {
+                              return null;
+                            }
+                          },
+                          focusNode: focus3,
+                          onFieldSubmitted: (v) {
+                            FocusScope.of(context).requestFocus(focus4);
+                          },
+                          controller: _pass2EditingController,
+                          decoration: InputDecoration(
+                              labelText: 'Confirm Password',
+                              labelStyle: const TextStyle(),
+                              icon: const Icon(Icons.lock),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(width: 2.0),
+                              )),
+                          obscureText: _passwordVisible,
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: _isChecked,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _isChecked = value!;
+                                });
+                              },
+                            ),
+                            Flexible(
+                              child: GestureDetector(
+                                onTap: showEula,
+                                child: const Text(
+                                    'Agree with Terms and Conditions.',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+                                        color:
+                                            Color.fromARGB(255, 21, 70, 111))),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MaterialButton(
+                              color: const Color.fromARGB(255, 190, 222, 230),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0)),
+                              minWidth: 110,
+                              height: 50,
+                              child: Text('Register'),
+                              elevation: 8,
+                              onPressed: _registerAccountDialog,
+                            ),
+                          ],
+                        ),
+                      ]),
+                    ),
                   ),
-                ]),
-              ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Already have an account? ",
+                        style: TextStyle(fontSize: 15)),
+                    GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    LoginScreen()))
+                      },
+                      child: const Text(
+                        "Login here",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                GestureDetector(
+                  onTap: () => {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                LoginRegisterScreen()))
+                  },
+                  child: const Text(
+                    "Back",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline),
+                  ),
+                ),
+              ],
             ),
           ),
-        )));
+        ));
   }
 
   String? validatePassword(String value) {
@@ -225,7 +316,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value)) {
-        return 'Enter valid password';
+        return 'Password must have uppercase, lowercase, and number';
       } else {
         return null;
       }
@@ -241,7 +332,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (!_formKey.currentState!.validate()) {
       Fluttertoast.showToast(
-          msg: "Please complete the registration form first",
+          msg: "Please complete the registration form",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -250,7 +341,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     if (!_isChecked) {
       Fluttertoast.showToast(
-          msg: "Please Accept Term",
+          msg: "Please accept Term and Conditions",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -267,7 +358,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    //If everything good proceed with dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -287,7 +377,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                //_registerUser(_name, _email, _phone, _passa);
+                _registerUser(_name, _email, _phone, _passa);
               },
             ),
             TextButton(
@@ -355,7 +445,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-   void _selectImage() {
+  void _selectImage() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -419,6 +509,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _image = File(pickedFile.path);
     } else {
       print('No image selected.');
+    }
+  }
+
+  void _registerUser(String name, String email, String phone, String pass) {
+    try {
+      http.post(
+          Uri.parse("${Config.SERVER}/php/register_user.php"),
+          body: {
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "password": pass,
+            "register": "register"
+          }).then((response) {
+            print(response.body);
+        // var data = jsonDecode(response.body);
+        // if (response.statusCode == 200 && data['status'] == "success") {
+        //   Fluttertoast.showToast(
+        //       msg: "Success",
+        //       toastLength: Toast.LENGTH_SHORT,
+        //       gravity: ToastGravity.BOTTOM,
+        //       timeInSecForIosWeb: 1,
+        //       fontSize: 14.0);
+        //   return;
+        // } else {
+        //   Fluttertoast.showToast(
+        //       msg: "Failed",
+        //       toastLength: Toast.LENGTH_SHORT,
+        //       gravity: ToastGravity.BOTTOM,
+        //       timeInSecForIosWeb: 1,
+        //       fontSize: 14.0);
+        //   return;
+        // }
+      });
+    } catch (e) {
+      print(e.toString());
     }
   }
 }
