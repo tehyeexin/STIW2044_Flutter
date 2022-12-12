@@ -527,7 +527,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // var data = jsonDecode(response.body);
         // if (response.statusCode == 200 && data['status'] == "success") {
         //   Fluttertoast.showToast(
-        //       msg: "Success",
+        //       msg: "Registration Success",
         //       toastLength: Toast.LENGTH_SHORT,
         //       gravity: ToastGravity.BOTTOM,
         //       timeInSecForIosWeb: 1,
@@ -535,7 +535,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         //   return;
         // } else {
         //   Fluttertoast.showToast(
-        //       msg: "Failed",
+        //       msg: "Registration Failed",
         //       toastLength: Toast.LENGTH_SHORT,
         //       gravity: ToastGravity.BOTTOM,
         //       timeInSecForIosWeb: 1,
