@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lab_asg_2_homestay_raya/models/user.dart';
 import '../shared/mainmenuwidget.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  final User user;
+  const MainScreen({super.key, required this.user});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -21,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
         child: Scaffold(
           appBar: AppBar(title: const Text("Homestay Raya")),
           body: const Center(child: Text("Home")),
-          drawer:  MainMenuWidget(),
+          drawer:  MainMenuWidget(user: widget.user),
         ));
   }
 }

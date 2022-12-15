@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lab_asg_2_homestay_raya/models/user.dart';
 import '../shared/mainmenuwidget.dart';
 import '../screens/loginscreen.dart';
 import '../screens/registerscreen.dart';
 
 class LoginRegisterScreen extends StatefulWidget {
-  const LoginRegisterScreen({Key? key}) : super(key: key);
+  final User user;
+  const LoginRegisterScreen({super.key, required this.user});
 
   @override
   State<LoginRegisterScreen> createState() => _LoginRegisterState();
@@ -68,7 +70,7 @@ class _LoginRegisterState extends State<LoginRegisterScreen> {
               ),
             ],
           )),
-          drawer: MainMenuWidget(),
+          drawer: MainMenuWidget(user: widget.user),
         ));
   }
 }

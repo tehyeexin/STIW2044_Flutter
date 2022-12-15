@@ -11,7 +11,7 @@ import 'package:ndialog/ndialog.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   File? _image;
   var pathAsset = "assets/images/camera_icon.png";
 
-  late double screenHeight, screenWidth, resWidth;
+  late double screenHeight, screenWidth, cardwitdh;
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +53,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
     screenWidth = MediaQuery.of(context).size.width;
 
     if (screenWidth <= 600) {
-      resWidth = screenWidth;
+      cardwitdh = screenWidth;
     } else {
-      resWidth = screenWidth * 0.75;
+      cardwitdh = screenWidth;
     }
 
     return Scaffold(
         appBar: AppBar(title: const Text("Registration Form")),
         body: Center(
-          child: SingleChildScrollView(
+            child: SingleChildScrollView(
+          child: SizedBox(
+            width: cardwitdh,
             child: Column(
               children: [
                 Card(
@@ -287,26 +289,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 const SizedBox(height: 5),
-                GestureDetector(
-                  onTap: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                LoginRegisterScreen()))
-                  },
-                  child: const Text(
-                    "Back",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () => {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (BuildContext context) =>
+                //                 LoginRegisterScreen(user: user)))
+                //   },
+                //   child: const Text(
+                //     "Back",
+                //     style: TextStyle(
+                //         fontSize: 15,
+                //         fontWeight: FontWeight.bold,
+                //         decoration: TextDecoration.underline),
+                //   ),
+                // ),
               ],
             ),
           ),
-        ));
+        )));
   }
 
   String? validatePassword(String value) {
@@ -534,7 +536,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     //String base64Image = base64Encode(_image!.readAsBytesSync());
 
     try {
-      http.post(Uri.parse("${Config.SERVER}/php/register_user.php"), body: {
+      http.post(Uri.parse("${Config.SERVER}/homestayraya/php/register_user.php"), 
+      body: {
         "name": name,
         "email": email,
         "phone": phone,

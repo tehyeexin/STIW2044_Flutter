@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lab_asg_2_homestay_raya/models/user.dart';
 import '../screens/mainscreen.dart';
 import '../screens/profilescreen.dart';
 import '../screens/loginregisterscreen.dart';
 import 'EnterExitRoute.dart';
 
 class MainMenuWidget extends StatefulWidget {
-  const MainMenuWidget({Key? key}) : super(key: key);
+   final User user;
+  const MainMenuWidget({super.key, required this.user});
 
   @override
   State<MainMenuWidget> createState() => _MainMenuWidgetState();
@@ -19,10 +21,10 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
       elevation: 10,
       child: ListView(
         children: [
-          const UserAccountsDrawerHeader(
-            accountEmail: Text("email"),
-            accountName: Text("username"),
-            currentAccountPicture: CircleAvatar(
+          UserAccountsDrawerHeader(
+            accountEmail: Text(widget.user.email.toString()),
+            accountName: Text(widget.user.name.toString()),
+            currentAccountPicture: const CircleAvatar(
               radius: 30.0,
             ),
           ),
@@ -35,8 +37,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
               Navigator.push(
                   context,
                   EnterExitRoute(
-                      exitPage: const MainScreen(),
-                      enterPage: const MainScreen()));
+                      exitPage: MainScreen(user: widget.user),
+                      enterPage: MainScreen(user: widget.user)));
             },
           ),
           ListTile(
@@ -50,8 +52,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
               Navigator.push(
                   context,
                   EnterExitRoute(
-                      exitPage: const MainScreen(),
-                      enterPage: const ProfileScreen()));
+                      exitPage: MainScreen(user: widget.user),
+                      enterPage: ProfileScreen(user: widget.user)));
             },
           ),
           ListTile(
@@ -65,8 +67,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
               Navigator.push(
                   context,
                   EnterExitRoute(
-                      exitPage: const MainScreen(),
-                      enterPage: const LoginRegisterScreen()));
+                      exitPage: MainScreen(user: widget.user),
+                      enterPage: LoginRegisterScreen(user: widget.user)));
             },
           ),
         ],

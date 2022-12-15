@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lab_asg_2_homestay_raya/models/user.dart';
 import '../shared/mainmenuwidget.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  final User user;
+  const ProfileScreen({super.key, required this.user});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -21,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Scaffold(
           appBar: AppBar(title: const Text("Profile")),
           body: const Center(child: Text("Profile")),
-          drawer:  MainMenuWidget(),
+          drawer:  MainMenuWidget(user: widget.user),
         ));
   }
 }

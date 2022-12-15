@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lab_asg_2_homestay_raya/view/screens/splashscreen.dart';
+import '../../models/user.dart';
+import 'package:lab_asg_2_homestay_raya/view/screens/mainscreen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.brown,
         brightness: Brightness.light,
       ),
-      home: const SplashScreen(),
+      home:  const SplashScreen(),
     );
   }
 }
