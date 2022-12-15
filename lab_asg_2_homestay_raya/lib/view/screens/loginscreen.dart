@@ -10,7 +10,6 @@ import 'package:lab_asg_2_homestay_raya/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -56,6 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
         width: cardwitdh,
         child: Column(
           children: [
+            const Text('Homestay Raya',
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 30),
             Card(
                 elevation: 8,
                 margin: const EdgeInsets.all(8),
@@ -69,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Text(
                             "Login",
                             style: TextStyle(
-                                fontSize: 27, fontWeight: FontWeight.bold),
+                                fontSize: 26, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
@@ -128,7 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 setState(() {
                                   _isChecked = value!;
                                 });
-                                //_onRememberMeChanged(value!);
                                 saveremovepref(value!);
                               },
                             ),
@@ -173,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const RegisterScreen()))
                   },
                   child: const Text(
-                    " Register here",
+                    " Sign up here",
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -222,22 +223,56 @@ class _LoginScreenState extends State<LoginScreen> {
     http.post(Uri.parse("${Config.SERVER}/homestayraya/php/login_user.php"),
         body: {"email": _email, "password": _pass}).then((response) {
       print(response.body);
-      if (response.statusCode == 200) {
-      var jsonResponse = json.decode(response.body);  
-      print(jsonResponse);
+
+      var jsonResponse = json.decode(response.body);
+      if (response.statusCode == 200 && jsonResponse['status'] == "success") {
+        print(jsonResponse);
         User user = User.fromJson(jsonResponse['data']);
-        print(user.email);
-      
-      // var jsonResponse = json.decode(response.body);
-      // if (response.statusCode == 200 && jsonResponse['status'] == "success") {
-      //   print(jsonResponse);
-      //   User user = User.fromJson(jsonResponse['data']);
-      //   print(user.phone);
+
+        ProgressDialog progressDialog = ProgressDialog(context,
+            message: const Text("Logging in"), title: const Text("User Login"));
+        progressDialog.show();
+
+        Fluttertoast.showToast(
+            msg: "Login Success",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            fontSize: 14.0);
+
+        progressDialog.dismiss();
         Navigator.push(context,
-            MaterialPageRoute(
-              builder: (content) => MainScreen(user: user)));
-      } 
-      else {
+            MaterialPageRoute(builder: (content) => MainScreen(user: user)));
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              title: const Text(
+                "Invalid email or password",
+                style: TextStyle(),
+              ),
+              content: const Text(
+                "Please try again.",
+                style: TextStyle(),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+
         Fluttertoast.showToast(
             msg: "Login Failed",
             toastLength: Toast.LENGTH_SHORT,
@@ -245,6 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
             timeInSecForIosWeb: 1,
             fontSize: 14.0);
       }
+      //progressDialog.dismiss();
     });
   }
 

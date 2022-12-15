@@ -75,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       key: _formKey,
                       child: Column(children: [
                         const Text(
-                          "Register New Account",
+                          "Create New Account",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
@@ -100,11 +100,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const SizedBox(height: 10),
                         TextFormField(
                             textInputAction: TextInputAction.next,
-                            validator: (val) => val!.isEmpty || (val.length < 3)
-                                ? "Name must be longer than 3 letters"
-                                : null,
+                            validator: (val) {
+                              if (val!.isEmpty ){
+                                return "Please enter a name";}
+                               if(val.length < 3|| val.contains(RegExp(r'[0-9]'))){
+                                return "Name must be all letters and at least 3 letters long";}
+                               
+                            },
+                            focusNode: focus,
                             onFieldSubmitted: (v) {
-                              FocusScope.of(context).requestFocus(focus);
+                              FocusScope.of(context).requestFocus(focus1);
                             },
                             controller: _nameEditingController,
                             keyboardType: TextInputType.text,
@@ -122,9 +127,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     !val.contains(".")
                                 ? "Please enter a valid email"
                                 : null,
-                            focusNode: focus,
+                            focusNode: focus1,
                             onFieldSubmitted: (v) {
-                              FocusScope.of(context).requestFocus(focus1);
+                              FocusScope.of(context).requestFocus(focus2);
                             },
                             controller: _emailEditingController,
                             keyboardType: TextInputType.emailAddress,
@@ -140,9 +145,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 val!.isEmpty || (val.length < 10)
                                     ? "Please enter a valid phone number"
                                     : null,
-                            focusNode: focus1,
+                            focusNode: focus2,
                             onFieldSubmitted: (v) {
-                              FocusScope.of(context).requestFocus(focus2);
+                              FocusScope.of(context).requestFocus(focus3);
                             },
                             controller: _phoneEditingController,
                             keyboardType: TextInputType.text,
@@ -155,9 +160,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         TextFormField(
                           textInputAction: TextInputAction.done,
                           validator: (val) => validatePassword(val.toString()),
-                          focusNode: focus2,
+                          focusNode: focus3,
                           onFieldSubmitted: (v) {
-                            FocusScope.of(context).requestFocus(focus3);
+                            FocusScope.of(context).requestFocus(focus4);
                           },
                           controller: _passEditingController,
                           decoration: InputDecoration(
@@ -191,9 +196,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             }
                           },
-                          focusNode: focus3,
+                          focusNode: focus4,
                           onFieldSubmitted: (v) {
-                            FocusScope.of(context).requestFocus(focus4);
+                            FocusScope.of(context).requestFocus(focus5);
                           },
                           controller: _pass2EditingController,
                           decoration: InputDecoration(
@@ -252,7 +257,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   borderRadius: BorderRadius.circular(5.0)),
                               minWidth: 110,
                               height: 50,
-                              child: Text('Register'),
+                              child: Text('Sign up'),
                               elevation: 8,
                               onPressed: _registerAccountDialog,
                             ),
@@ -276,7 +281,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    LoginScreen()))
+                                    const LoginScreen()))
                       },
                       child: const Text(
                         "Login here",
@@ -318,7 +323,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value)) {
-        return 'Password must have uppercase, lowercase, and number';
+        return 'Password must contain uppercase, lowercase, number and have 6 or more characters';
       } else {
         return null;
       }
@@ -343,7 +348,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     if (!_isChecked) {
       Fluttertoast.showToast(
-          msg: "Please accept Term and Conditions",
+          msg: "Please accept the Term and Conditions",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -530,7 +535,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     FocusScope.of(context).unfocus();
     ProgressDialog progressDialog = ProgressDialog(context,
         message: const Text("Registration in progress.."),
-        title: const Text("Registering..."));
+        title: const Text("User Registration"));
     progressDialog.show();
 
     //String base64Image = base64Encode(_image!.readAsBytesSync());
