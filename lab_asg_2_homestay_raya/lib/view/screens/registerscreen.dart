@@ -71,6 +71,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
             const SizedBox(height: 15),
             Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
               elevation: 8,
               margin: const EdgeInsets.all(8),
               child: Container(

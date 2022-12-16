@@ -16,7 +16,7 @@ class MainMenuWidget extends StatefulWidget {
 
 class _MainMenuWidgetState extends State<MainMenuWidget> {
   File? _image;
-  var pathAsset = "assets/images/profile.png";
+  var pathAsset = "assets/images/profilepic.png";
 
   @override
   Widget build(BuildContext context) {

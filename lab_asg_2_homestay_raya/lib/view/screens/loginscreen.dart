@@ -55,6 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
             const SizedBox(height: 30),
             Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 elevation: 8,
                 margin: const EdgeInsets.all(8),
                 child: Container(
@@ -237,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(),
               ),
               content: const Text(
-                "Please try again.",
+                "Please try again",
                 style: TextStyle(),
               ),
               actions: <Widget>[
