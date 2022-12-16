@@ -334,13 +334,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String? validatePassword(String value) {
-    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{10,}$';
     RegExp regex = RegExp(pattern);
     if (value.isEmpty) {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value)) {
-        return 'Password must contain uppercase, lowercase, number and have 6 or more characters';
+        return 'Password must contain uppercase, lowercase, number and have 10 or more characters';
       } else {
         return null;
       }
