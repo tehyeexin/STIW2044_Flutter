@@ -21,11 +21,15 @@ class _MainScreenState extends State<MainScreen> {
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
+          backgroundColor: Colors.brown[50],
           appBar: AppBar(title: const Text("Homestay Raya")),
           body: const Center(
               child: Text(
             "Find the best homestay!",
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 83, 67, 61)),
           )),
           drawer: MainMenuWidget(user: widget.user),
         ));

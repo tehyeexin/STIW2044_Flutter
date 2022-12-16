@@ -12,10 +12,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Homestay Raya',
-      theme: ThemeData(
-        primarySwatch: Colors.brown,
-        brightness: Brightness.light,
-      ),
+      theme:
+          ThemeData(primarySwatch: Colors.brown, brightness: Brightness.light),
       home: const SplashScreen(),
     );
   }

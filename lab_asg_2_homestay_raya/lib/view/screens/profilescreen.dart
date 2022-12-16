@@ -35,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
+          backgroundColor: Colors.brown[50],
           appBar: AppBar(title: const Text("Profile")),
           body: Center(
               child: Column(
@@ -43,7 +44,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 30),
                 const Text(
                   "My Profile",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 83, 67, 61)),
                 ),
                 const SizedBox(height: 10),
                 Card(

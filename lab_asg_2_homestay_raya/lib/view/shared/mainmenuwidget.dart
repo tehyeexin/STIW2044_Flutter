@@ -23,6 +23,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     return Drawer(
       width: 250,
       elevation: 10,
+      backgroundColor: Colors.brown[50],
       child: ListView(
         children: [
           UserAccountsDrawerHeader(

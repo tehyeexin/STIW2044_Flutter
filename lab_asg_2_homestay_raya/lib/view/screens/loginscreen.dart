@@ -45,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
       cardwitdh = 400.00;
     }
     return Scaffold(
+      backgroundColor: Colors.brown[50],
       body: Center(
           child: SingleChildScrollView(
               child: SizedBox(
@@ -52,7 +53,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: [
             const Text('Homestay Raya',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 83, 67, 61))),
             const SizedBox(height: 30),
             Card(
                 shape: RoundedRectangleBorder(
@@ -70,7 +74,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Text(
                             "Login",
                             style: TextStyle(
-                                fontSize: 26, fontWeight: FontWeight.bold),
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 83, 67, 61)),
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
