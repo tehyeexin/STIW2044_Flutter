@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lab_asg_2_homestay_raya/config.dart';
-import 'package:lab_asg_2_homestay_raya/view/screens/loginregisterscreen.dart';
+import 'package:lab_asg_2_homestay_raya/view/screens/startlogin.dart';
 import 'package:lab_asg_2_homestay_raya/view/screens/loginscreen.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:image_picker/image_picker.dart';
@@ -348,6 +348,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String _phone = _phoneEditingController.text;
     String _passa = _passEditingController.text;
     String _passb = _pass2EditingController.text;
+
+     if (_image == null) {
+      Fluttertoast.showToast(
+          msg: "Please take a profile picture",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          fontSize: 14.0);
+      return;
+    }
 
     if (!_formKey.currentState!.validate()) {
       Fluttertoast.showToast(

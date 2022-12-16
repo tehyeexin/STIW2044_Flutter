@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lab_asg_2_homestay_raya/models/user.dart';
-import 'package:lab_asg_2_homestay_raya/view/screens/loginregisterscreen.dart';
+import 'package:lab_asg_2_homestay_raya/view/screens/startlogin.dart';
 import 'package:lab_asg_2_homestay_raya/view/screens/mainscreen.dart';
 import 'package:lab_asg_2_homestay_raya/view/screens/registerscreen.dart';
 import 'package:ndialog/ndialog.dart';
