@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +10,7 @@ import 'package:lab_asg_2_homestay_raya/view/screens/loginregisterscreen.dart';
 import 'package:lab_asg_2_homestay_raya/view/screens/loginscreen.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -66,6 +68,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             width: cardwitdh,
             child: Column(
               children: [
+                const SizedBox(height: 20),
+                const Text('Homestay Raya',
+                    style:
+                        TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 15),
                 Card(
                   elevation: 8,
                   margin: const EdgeInsets.all(8),
@@ -79,8 +86,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
+                        const SizedBox(height: 10),
                         SizedBox(
-                            height: screenHeight / 3,
+                            height: 180,
+                            width: 180,
                             child: GestureDetector(
                               onTap: _selectImage,
                               child: Padding(
@@ -101,11 +110,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         TextFormField(
                             textInputAction: TextInputAction.next,
                             validator: (val) {
-                              if (val!.isEmpty ){
-                                return "Please enter a name";}
-                               if(val.length < 3|| val.contains(RegExp(r'[0-9]'))){
-                                return "Name must be all letters and at least 3 letters long";}
-                               
+                              if (val!.isEmpty) {
+                                return "Please enter a name";
+                              }
+                              if (val.length < 3 ||
+                                  val.contains(RegExp(r'[0-9]'))) {
+                                return "Name must be all letters and at least 3 letters long";
+                              }
                             },
                             focusNode: focus,
                             onFieldSubmitted: (v) {
@@ -310,6 +321,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 //         decoration: TextDecoration.underline),
                 //   ),
                 // ),
+                const SizedBox(height: 20)
               ],
             ),
           ),
@@ -504,6 +516,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (pickedFile != null) {
       _image = File(pickedFile.path);
+      cropImage();
     } else {
       print('No image selected.');
     }
@@ -519,18 +532,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (pickedFile != null) {
       _image = File(pickedFile.path);
+      cropImage();
     } else {
       print('No image selected.');
+    }
+  }
+
+     Future<void> cropImage() async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: _image!.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.brown,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    if (croppedFile != null) {
+      File imageFile = File(croppedFile.path);
+      _image = imageFile;
+      setState(() {});
     }
   }
 
   void _registerUser(String name, String email, String phone, String pass) {
     FocusScope.of(context).requestFocus(FocusNode());
 
-    // String _name = _nameEditingController.text;
-    // String _email = _emailEditingController.text;
-    // String _phone = _phoneEditingController.text;
-    // String _pass = _passEditingController.text;
+    String name = _nameEditingController.text;
+    String email = _emailEditingController.text;
+    String phone = _phoneEditingController.text;
+    String pass = _passEditingController.text;
+    String base64Image = base64Encode(_image!.readAsBytesSync());
 
     FocusScope.of(context).unfocus();
     ProgressDialog progressDialog = ProgressDialog(context,
@@ -538,17 +578,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         title: const Text("User Registration"));
     progressDialog.show();
 
-    //String base64Image = base64Encode(_image!.readAsBytesSync());
-
     try {
-      http.post(Uri.parse("${Config.SERVER}/homestayraya/php/register_user.php"), 
-      body: {
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "password": pass,
-        "register": "register"
-      }).then((response) {
+      http.post(
+          Uri.parse("${Config.SERVER}/homestayraya/php/register_user.php"),
+          body: {
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "password": pass,
+            "register": "register",
+            "image": base64Image
+          }).then((response) {
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 && data['status'] == "success") {
           Fluttertoast.showToast(
@@ -561,7 +601,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => LoginScreen()));
+                  builder: (BuildContext context) => const LoginScreen()));
           return;
         } else {
           Fluttertoast.showToast(
