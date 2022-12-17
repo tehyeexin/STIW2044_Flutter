@@ -131,12 +131,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             "Logout?",
             style: TextStyle(),
           ),
-          content: const Text("Are you sure?", style: TextStyle()),
+          content: const Text("Are you sure?"),
           actions: <Widget>[
             TextButton(
               child: const Text(
                 "Yes",
-                style: TextStyle(),
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -150,7 +149,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             TextButton(
               child: const Text(
                 "No",
-                style: TextStyle(),
               ),
               onPressed: () {
                 Navigator.of(context).pop();

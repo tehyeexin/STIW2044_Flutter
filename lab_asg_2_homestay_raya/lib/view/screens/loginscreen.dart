@@ -17,12 +17,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailEditingController = TextEditingController();
+  final TextEditingController _passEditingController = TextEditingController();
+
   final focus = FocusNode();
   final focus1 = FocusNode();
   final focus2 = FocusNode();
-
-  final TextEditingController _emailEditingController = TextEditingController();
-  final TextEditingController _passEditingController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   bool _isChecked = false;
@@ -93,7 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               decoration: const InputDecoration(
                                   labelText: 'Email',
-                                  labelStyle: TextStyle(),
                                   icon: Icon(Icons.email),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(width: 1.0),
@@ -109,7 +108,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               controller: _passEditingController,
                               obscureText: _passwordVisible,
                               decoration: InputDecoration(
-                                  labelStyle: const TextStyle(),
                                   labelText: 'Password',
                                   icon: const Icon(Icons.lock),
                                   suffixIcon: IconButton(
@@ -189,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 5)
+            const SizedBox(height: 10)
           ],
         ),
       ))),
@@ -243,17 +241,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               title: const Text(
                 "Invalid email or password",
-                style: TextStyle(),
               ),
               content: const Text(
                 "Please try again",
-                style: TextStyle(),
               ),
               actions: <Widget>[
                 TextButton(
                   child: const Text(
                     "OK",
-                    style: TextStyle(),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();

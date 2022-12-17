@@ -19,11 +19,11 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  @override
-  void dispose() {
-    super.dispose();
-    loadEula();
-  }
+  final TextEditingController _nameEditingController = TextEditingController();
+  final TextEditingController _emailEditingController = TextEditingController();
+  final TextEditingController _phoneEditingController = TextEditingController();
+  final TextEditingController _passEditingController = TextEditingController();
+  final TextEditingController _pass2EditingController = TextEditingController();
 
   final focus = FocusNode();
   final focus1 = FocusNode();
@@ -32,21 +32,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final focus4 = FocusNode();
   final focus5 = FocusNode();
 
-  final TextEditingController _nameEditingController = TextEditingController();
-  final TextEditingController _emailEditingController = TextEditingController();
-  final TextEditingController _phoneEditingController = TextEditingController();
-  final TextEditingController _passEditingController = TextEditingController();
-  final TextEditingController _pass2EditingController = TextEditingController();
-
+  String eula = "";
   bool _isChecked = false;
   bool _passwordVisible = true;
   final _formKey = GlobalKey<FormState>();
-  String eula = "";
 
   File? _image;
   var pathAsset = "assets/images/camera_icon.png";
 
   late double screenHeight, screenWidth, cardwitdh;
+
+  @override
+  void dispose() {
+    super.dispose();
+    loadEula();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +132,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             keyboardType: TextInputType.text,
                             decoration: const InputDecoration(
                                 labelText: 'Name',
-                                labelStyle: TextStyle(),
                                 icon: Icon(Icons.person),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(width: 2.0),
@@ -203,7 +202,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           obscureText: _passwordVisible,
                         ),
                         TextFormField(
-                          style: const TextStyle(),
                           textInputAction: TextInputAction.done,
                           validator: (val) {
                             validatePassword(val.toString());
@@ -220,7 +218,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: _pass2EditingController,
                           decoration: InputDecoration(
                               labelText: 'Confirm Password',
-                              labelStyle: const TextStyle(),
                               icon: const Icon(Icons.lock),
                               suffixIcon: IconButton(
                                 icon: Icon(
@@ -256,7 +253,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: const Text(
                                     'Agree with Terms and Conditions.',
                                     style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         decoration: TextDecoration.underline)),
                               ),
@@ -309,23 +306,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
-                GestureDetector(
-                  onTap: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const LoginScreen()))
-                  },
-                  child: const Text(
-                    "Back",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline),
-                  ),
-                ),
                 const SizedBox(height: 20)
               ],
             ),
@@ -340,7 +320,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value)) {
-        return 'Password must contain uppercase, lowercase, number and have 10 or more characters';
+        return 'Password must contain at least 1 uppercase, 1 lowercase, 1 number and have 10 or more characters';
       } else {
         return null;
       }
@@ -398,27 +378,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return AlertDialog(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          title: const Text(
-            "Create new account?",
-            style: TextStyle(),
-          ),
-          content: const Text("Are you sure?", style: TextStyle()),
+          title: const Text("Create new account?"),
+          content: const Text("Are you sure?"),
           actions: <Widget>[
             TextButton(
-              child: const Text(
-                "Yes",
-                style: TextStyle(),
-              ),
+              child: const Text("Yes"),
               onPressed: () {
                 Navigator.of(context).pop();
                 _registerUser(_name, _email, _phone, _passa);
               },
             ),
             TextButton(
-              child: const Text(
-                "No",
-                style: TextStyle(),
-              ),
+              child: const Text("No"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -436,7 +407,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return AlertDialog(
             title: const Text(
               "Select from",
-              style: TextStyle(),
+              style: TextStyle(color: Color.fromARGB(255, 83, 67, 61)),
             ),
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -539,7 +510,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return AlertDialog(
           title: const Text(
             "EULA",
-            style: TextStyle(),
+            style: TextStyle(color: Color.fromARGB(255, 83, 67, 61)),
           ),
           content: SizedBox(
             height: 300,
@@ -553,7 +524,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     textAlign: TextAlign.justify,
                     text: TextSpan(
                         style: const TextStyle(
-                          color: Colors.black,
+                          color: Color.fromARGB(255, 83, 67, 61),
                           fontSize: 12.0,
                         ),
                         text: eula),
@@ -588,8 +559,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     FocusScope.of(context).unfocus();
     ProgressDialog progressDialog = ProgressDialog(context,
-        message: const Text("Registration in progress.."),
-        title: const Text("User Registration"));
+        message: const Text("Registration in progress..."),
+        title: const Text("New Account Registration"));
     progressDialog.show();
 
     try {
