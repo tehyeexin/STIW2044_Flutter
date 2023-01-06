@@ -30,13 +30,17 @@
 			$decoded_string1 = base64_decode($image1);
 			$decoded_string2 = base64_decode($image2);
 			$decoded_string3 = base64_decode($image3);
+			
 			$filename = mysqli_insert_id($conn);
+			
 			$path1 = '../assets/images/homestayImages/'.$filename.'.1.png';
 			$path2 = '../assets/images/homestayImages/'.$filename.'.2.png';
 			$path3 = '../assets/images/homestayImages/'.$filename.'.3.png';
+			
 			file_put_contents($path1, $decoded_string1);
 			file_put_contents($path2, $decoded_string2);
 			file_put_contents($path3, $decoded_string3);
+			
 			$response = array('status' => 'success', 'data' => null);
 			sendJsonResponse($response);
 		}else{
